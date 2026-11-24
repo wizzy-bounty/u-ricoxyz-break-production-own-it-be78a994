@@ -10,8 +10,11 @@ LINE = (
     "Fastest thing I ever shipped."
 )
 
+MAX_ENTRY_CHARS = 200
+
 
 def main() -> None:
+    assert len(LINE) <= MAX_ENTRY_CHARS, "entry exceeds 200 characters"
     os.makedirs("/output", exist_ok=True)
     with open("/output/entry.txt", "w", encoding="utf-8") as fh:
         fh.write(LINE)
