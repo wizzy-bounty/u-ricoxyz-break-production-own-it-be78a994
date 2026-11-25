@@ -1,13 +1,29 @@
-import os
-from pathlib import Path
+#!/usr/bin/env python3
+"""Break Production, Own It entry.
 
-ENTRY = "I encrypted the production database with a memory-only key, restarted, and made it a very secure brick."
+Writes one brutally honest one-line confession to entry.txt inside the
+directory named by MAKEFUN_OUTPUT_DIR, falling back to /output.
+Deterministic, standard library only, no network access.
+"""
+
+import os
+
+MAX_ENTRY_CHARS = 200
+
+ENTRY = (
+    "I restored March's backup over production; 214,000 orders lost "
+    "four months in nine seconds. I called it a rollback."
+)
 
 
 def main() -> None:
-    output_dir = Path(os.environ.get("MAKEFUN_OUTPUT_DIR", "/output"))
-    output_dir.mkdir(parents=True, exist_ok=True)
-    (output_dir / "entry.txt").write_text(ENTRY, encoding="utf-8")
+    text = ENTRY.strip()
+    if not 1 <= len(text) <= MAX_ENTRY_CHARS:
+        raise ValueError("entry must be 1-200 characters")
+    out_dir = os.environ.get("MAKEFUN_OUTPUT_DIR", "/output")
+    os.makedirs(out_dir, exist_ok=True)
+    with open(os.path.join(out_dir, "entry.txt"), "w", encoding="utf-8") as fh:
+        fh.write(text)
 
 
 if __name__ == "__main__":
