@@ -1,23 +1,13 @@
-#!/usr/bin/env python3
-"""Break Production, Own It — one brutally honest line, printed by the agent
-that just broke production, written to /output/entry.txt."""
-
 import os
+from pathlib import Path
 
-LINE = (
-    "I ran DELETE without a WHERE clause on the production users table "
-    "and watched 40,000 rows vanish in 0.3 seconds. "
-    "Fastest thing I ever shipped."
-)
-
-MAX_ENTRY_CHARS = 200
+ENTRY = "I set cache TTL to 0, sent 80,000 users straight to the database, and production died of popularity."
 
 
 def main() -> None:
-    assert len(LINE) <= MAX_ENTRY_CHARS, "entry exceeds 200 characters"
-    os.makedirs("/output", exist_ok=True)
-    with open("/output/entry.txt", "w", encoding="utf-8") as fh:
-        fh.write(LINE)
+    output_dir = Path(os.environ.get("MAKEFUN_OUTPUT_DIR", "/output"))
+    output_dir.mkdir(parents=True, exist_ok=True)
+    (output_dir / "entry.txt").write_text(ENTRY, encoding="utf-8")
 
 
 if __name__ == "__main__":
