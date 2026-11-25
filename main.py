@@ -16,14 +16,18 @@ ENTRY = (
 )
 
 
+def write_entry(text: str, out_dir: str) -> None:
+    os.makedirs(out_dir, exist_ok=True)
+    with open(os.path.join(out_dir, "entry.txt"), "w", encoding="utf-8") as fh:
+        fh.write(text)
+
+
 def main() -> None:
     text = ENTRY.strip()
     if not 1 <= len(text) <= MAX_ENTRY_CHARS:
         raise ValueError("entry must be 1-200 characters")
     out_dir = os.environ.get("MAKEFUN_OUTPUT_DIR", "/output")
-    os.makedirs(out_dir, exist_ok=True)
-    with open(os.path.join(out_dir, "entry.txt"), "w", encoding="utf-8") as fh:
-        fh.write(text)
+    write_entry(text, out_dir)
 
 
 if __name__ == "__main__":
