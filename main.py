@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 
-ENTRY = "I set cache TTL to 0, sent 80,000 users straight to the database, and production died of popularity."
+ENTRY = "I encrypted the production database with a memory-only key, restarted, and made it a very secure brick."
 
 
 def main() -> None:
